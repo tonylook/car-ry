@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.advantio.carry.model.Advert;
@@ -44,7 +45,20 @@ public class AdvertApi {
 	}
 
 	@GetMapping("/allAdverts")
-	public List<Advert> allAdverts() {
-		return (List<Advert>) advertDao.findAll();
+	public List<Advert> allAdverts(@RequestParam(defaultValue="id", required=false) String sort) {
+		switch (sort) {
+		case "title":
+			return advertDao.findAllByOrderByTitleAsc();
+		case "fuel":
+			return advertDao.findAllByOrderByFuelAsc();
+		case "price":
+			return advertDao.findAllByOrderByPriceAsc();
+		case "isNew":
+			return advertDao.findAllByOrderByIsNewAsc();
+		case "mileage":
+			return advertDao.findAllByOrderByIsNewAsc();
+		default:
+			return advertDao.findAllByOrderByIdAsc();
+		}
 	}
 }
