@@ -1,14 +1,13 @@
 package com.advantio.carry.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -34,8 +33,9 @@ public class Advert {
 
 	private Integer mileage;
 
-	@Temporal(TemporalType.DATE)
-	private Date firstRegistration;
+	@Column(columnDefinition = "DATE")
+	private LocalDate firstRegistration;
+
 
 	public Integer getId() {
 		return id;
@@ -85,16 +85,16 @@ public class Advert {
 		this.mileage = mileage;
 	}
 
-	public Date getFirstRegistration() {
+	public LocalDate getFirstRegistration() {
 		return firstRegistration;
 	}
 
-	public void setFirstRegistration(Date firstRegistration) {
+	public void setFirstRegistration(LocalDate firstRegistration) {
 		this.firstRegistration = firstRegistration;
 	}
 
 	public Advert(Integer id, @NotNull String title, @NotNull String fuel, @NotNull Integer price,
-			@NotNull Boolean isNew, Integer mileage, Date firstRegistration) {
+			@NotNull Boolean isNew, Integer mileage, LocalDate firstRegistration) {
 		super();
 		this.id = id;
 		this.title = title;
