@@ -22,7 +22,7 @@ import com.advantio.carry.repository.AdvertDao;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CRUDtest {
+public class CrudTest {
 	
 @Autowired
 private AdvertDao advertDao;
