@@ -10,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.advantio.carry.exception.ResourceNotFoundException;
 import com.advantio.carry.model.Advert;
 import com.advantio.carry.model.AdvertValidator;
 import com.advantio.carry.repository.AdvertDao;
@@ -56,9 +58,16 @@ public class AdvertApi {
 		case "isNew":
 			return advertDao.findAllByOrderByIsNewAsc();
 		case "mileage":
-			return advertDao.findAllByOrderByIsNewAsc();
+			return advertDao.findAllByOrderByMileageAsc();
+		case "firstRegistration":
+			return advertDao.findAllByOrderByFirstRegistrationAsc();
 		default:
 			return advertDao.findAllByOrderByIdAsc();
 		}
+	}
+	
+	@GetMapping("/advert/{id}")
+	public Advert getNoteById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+	    return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
 	}
 }
