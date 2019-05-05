@@ -11,10 +11,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+//@DynamicUpdate
 @Table(name = "adverts")
 
 public class Advert {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;

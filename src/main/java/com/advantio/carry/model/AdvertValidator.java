@@ -8,15 +8,19 @@ import org.springframework.validation.ObjectError;
 
 @Component
 public class AdvertValidator {
-    public void validate(Advert advert, Errors errors) {
-        if (!advert.getIsNew()) {
-            if (advert.getMileage()==null || advert.getFirstRegistration()==null) {
-                errors.reject("When Car is not new, Mileage and First Registration fields are mandatory");
-            }
-        }
-    }
-    
-    public String createError(Errors errors) {
-        return errors.getAllErrors().stream().map(ObjectError::toString).collect(Collectors.joining(","));
-    }
+	public void validate(Advert advert, Errors errors) {
+		if (!advert.getIsNew()) {
+			if (advert.getMileage()==null || advert.getFirstRegistration()==null) {
+				errors.reject("When Car is not new, Mileage and First Registration fields are mandatory");
+			}
+		}else {
+			if (advert.getMileage()!=null || advert.getFirstRegistration()!=null) {
+				errors.reject("When Car is new, Mileage and First Registration fields must not be available");
+			}
+		}
+	}
+
+	public String createError(Errors errors) {
+		return errors.getAllErrors().stream().map(ObjectError::toString).collect(Collectors.joining(","));
+	}
 }
