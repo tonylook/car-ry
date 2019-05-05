@@ -27,7 +27,7 @@ public class SortTest {
 	DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 
 	@Before
-	public void populate() throws ParseException {
+	public void apopulate() throws ParseException {
 		Advert advert1 = new Advert();
 		Advert advert2 = new Advert();
 		Advert advert3 = new Advert();
@@ -54,17 +54,17 @@ public class SortTest {
 	}
 
 	@Test
-	public void idSortTest() throws ParseException {
+	public void bidSortTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByIdAsc();
 		Advert advert = new Advert();
 		advert = adverts.get(0);
 
-		assertTrue("The record found is not correct", advert.getId().equals(Integer.valueOf(1))); 
+		assertTrue("The record found is not correct", advert.getId().equals(Integer.valueOf(2))); 
 	}
 
 	@Test
-	public void firstRegistrationTest() throws ParseException {
+	public void cfirstRegistrationTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByFirstRegistrationAsc();
 		Advert advert = new Advert();
@@ -74,7 +74,7 @@ public class SortTest {
 	}
 
 	@Test
-	public void isNewTest() throws ParseException {
+	public void disNewTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByIsNewAsc();
 		Advert advert = new Advert();
@@ -84,7 +84,7 @@ public class SortTest {
 	}
 
 	@Test
-	public void mileageTest() throws ParseException {
+	public void emileageTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByMileageAsc();
 		Advert advert = new Advert();
@@ -94,7 +94,7 @@ public class SortTest {
 	}
 
 	@Test
-	public void priceTest() throws ParseException {
+	public void fpriceTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByPriceAsc();
 		Advert advert = new Advert();
@@ -104,7 +104,7 @@ public class SortTest {
 	}
 
 	@Test
-	public void titleTest() throws ParseException {
+	public void gtitleTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByTitleAsc();
 
@@ -114,7 +114,7 @@ public class SortTest {
 	}
 
 	@Test
-	public void fuelTest() throws ParseException {
+	public void hfuelTest() throws ParseException {
 
 		List<Advert> adverts = advertDao.findAllByOrderByFuelAsc();
 		Advert advert = new Advert();

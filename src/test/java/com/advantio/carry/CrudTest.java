@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,6 +22,7 @@ import com.advantio.carry.repository.AdvertDao;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CrudTest {
 	
 @Autowired
@@ -29,8 +30,8 @@ private AdvertDao advertDao;
 DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 
 
-	@Before
-	public void createTest() throws ParseException {
+	@Test
+	public void acreateTest() throws ParseException {
 		Advert advert = new Advert();
 		advert.setFirstRegistration(LocalDate.parse("2000-03-28", dtf));
 		advert.setIsNew(false);
@@ -42,7 +43,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 	}
 	
 	@Test
-	public void readTest() throws ParseException {
+	public void breadTest() throws ParseException {
 
 		Optional<Advert> value = advertDao.findById(1);
 		Advert advert = new Advert();
@@ -57,7 +58,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 	}
 	
 	@Test
-	public void updateTest() throws ParseException {
+	public void cupdateTest() throws ParseException {
 
 		Optional<Advert> value = advertDao.findById(1);
 		Advert advert = new Advert();
@@ -81,7 +82,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 		assertTrue("The record found is not correct",advert.getFuel().equals(String.valueOf(Fuel.GASOLINE.name())));
 	}
 	
-	@After
+	@Test
 	public void deleteTest() throws ParseException {
 		Optional<Advert> value = advertDao.findById(1);
 		Advert advert = new Advert();
