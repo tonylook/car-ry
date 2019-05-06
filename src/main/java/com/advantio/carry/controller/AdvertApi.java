@@ -11,8 +11,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -72,7 +72,7 @@ public class AdvertApi {
 		return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
 	}
 
-	@PutMapping("/editAdvert")
+	@PatchMapping("/editAdvert")
 	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, Errors errors) {
 		if(edit.getId()!=null) {
 			Advert advert = new Advert();
