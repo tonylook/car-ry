@@ -95,8 +95,8 @@ public class AdvertApi {
 		return new ResponseEntity<>("message: Id field is mandatory in order to update",HttpStatus.NOT_ACCEPTABLE);
 	}
 	
-	@DeleteMapping("/adverts")
-	public ResponseEntity<?> deleteAdvert(@RequestParam(value="id", required=true) Integer id) throws ResourceNotFoundException {
+	@DeleteMapping("/adverts/{id}")
+	public ResponseEntity<?> deleteAdvert(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
 		advertDao.deleteById(id);
 		if(advertDao.findById(id).isPresent()) {
 			return new ResponseEntity<>("Due to some errors, advert was not removed",HttpStatus.INTERNAL_SERVER_ERROR);
