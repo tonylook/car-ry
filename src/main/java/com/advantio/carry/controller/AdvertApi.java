@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ import com.advantio.carry.repository.AdvertDao;
 
 @RestController
 @CrossOrigin //CORS Enabled
-@RequestMapping("/advertApi")
+@RequestMapping("/api")
 public class AdvertApi {
 	private final AdvertValidator advertValidator;
 
@@ -36,18 +37,18 @@ public class AdvertApi {
 	@Autowired
 	private AdvertDao advertDao;
 
-	@PostMapping("/insertAdvert")
+	@PostMapping("/adverts")
 	public ResponseEntity<?> insertAdvert(@Valid @RequestBody Advert advert, Errors errors) {
 		advertValidator.validate(advert, errors);
 		if (errors.hasErrors()) {
 			return new ResponseEntity<>(advertValidator.createError(errors), HttpStatus.BAD_REQUEST);
 		}else {
 			advertDao.save(advert);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.CREATED);
 		}
 	}
 
-	@GetMapping("/allAdverts")
+	@GetMapping("/adverts")
 	public List<Advert> allAdverts(@RequestParam(defaultValue="id", required=false) String sort) {
 		switch (sort) {
 		case "title":
@@ -67,12 +68,12 @@ public class AdvertApi {
 		}
 	}
 
-	@GetMapping("/advert")
-	public Advert advert(@RequestParam(value="id", required=true) Integer id) throws ResourceNotFoundException {
-		return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
+	@GetMapping("/adverts/{id}")
+	public Advert getNoteById(@PathVariable(value = "id") Integer id) throws ResourceNotFoundException {
+	    return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
 	}
 
-	@PatchMapping("/editAdvert")
+	@PatchMapping("/adverts")
 	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, Errors errors) {
 		if(edit.getId()!=null) {
 			Advert advert = new Advert();
@@ -94,7 +95,7 @@ public class AdvertApi {
 		return new ResponseEntity<>("message: Id field is mandatory in order to update",HttpStatus.NOT_ACCEPTABLE);
 	}
 	
-	@DeleteMapping("/advert")
+	@DeleteMapping("/adverts")
 	public ResponseEntity<?> deleteAdvert(@RequestParam(value="id", required=true) Integer id) throws ResourceNotFoundException {
 		advertDao.deleteById(id);
 		if(advertDao.findById(id).isPresent()) {
