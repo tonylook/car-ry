@@ -3,9 +3,11 @@ package com.advantio.carry.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -73,11 +75,11 @@ public class AdvertApi {
 	    return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
 	}
 
-	@PatchMapping("/adverts")
-	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, Errors errors) {
+	@PatchMapping("/adverts/{id}")
+	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, @PathParam("id") Integer id, Errors errors) {
 		if(edit.getId()!=null) {
 			Advert advert = new Advert();
-			advert = advertDao.findById(edit.getId()).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", edit.getId()));
+			advert = advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", edit.getId()));
 			if(edit.getTitle()!=null) advert.setTitle(edit.getTitle());
 			if(edit.getFuel()!=null) advert.setFuel(edit.getFuel());
 			if(edit.getPrice()!=null) advert.setPrice(edit.getPrice());
