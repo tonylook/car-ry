@@ -36,7 +36,7 @@ $ mvn spring-boot:run
 
 The API now are served, read Postman API Documentation to use it.
 ### If you want to run multiple times Junit
-Before every test you have to drop from the "advantio" schema the following tables: "adverts" and "hibernate_sequence", or you have to set spring profile on create (it will recreate the entire schema from scratch at every boot).
+Before every test you have to drop from the "advantio" schema the following tables: "adverts" and "hibernate_sequence", or set spring profiles on create.
 ```sh
 $ export spring_profiles_active=create
 ```
