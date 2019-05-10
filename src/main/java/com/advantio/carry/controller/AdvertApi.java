@@ -25,7 +25,7 @@ import com.advantio.carry.model.AdvertValidator;
 import com.advantio.carry.repository.AdvertDao;
 
 @RestController
-@CrossOrigin //CORS Enabled
+@CrossOrigin(origins="*") //CORS Enabled
 @RequestMapping("/api")
 public class AdvertApi {
 	private final AdvertValidator advertValidator;
