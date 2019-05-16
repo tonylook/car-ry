@@ -7,15 +7,14 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.advantio.carry.exception.ResourceNotFoundException;
 import com.advantio.carry.model.Advert;
 import com.advantio.carry.model.AdvertValidator;
+import com.advantio.carry.model.AdvertsResponse;
 import com.advantio.carry.repository.AdvertDao;
 
 @RestController
@@ -51,22 +51,22 @@ public class AdvertApi {
 	}
 
 	@GetMapping("/adverts")
-	public List<Advert> allAdverts(@RequestParam(defaultValue="id", required=false) String sort) {
+	public AdvertsResponse allAdverts(@RequestParam(defaultValue="id", required=false) String sort) {
 		switch (sort) {
 		case "title":
-			return advertDao.findAllByOrderByTitleAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByTitleAsc());
 		case "fuel":
-			return advertDao.findAllByOrderByFuelAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByFuelAsc());
 		case "price":
-			return advertDao.findAllByOrderByPriceAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByPriceAsc());
 		case "isNew":
-			return advertDao.findAllByOrderByIsNewAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByIsNewAsc());
 		case "mileage":
-			return advertDao.findAllByOrderByMileageAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByMileageAsc());
 		case "firstRegistration":
-			return advertDao.findAllByOrderByFirstRegistrationAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByFirstRegistrationAsc());
 		default:
-			return advertDao.findAllByOrderByIdAsc();
+			return new AdvertsResponse(advertDao.findAllByOrderByIdAsc());
 		}
 	}
 
@@ -75,9 +75,9 @@ public class AdvertApi {
 	    return advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
 	}
 
-	@PatchMapping("/adverts/{id}")
-	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, @PathParam("id") Integer id, Errors errors) {
-		if(edit.getId()!=null) {
+	@PutMapping("/adverts/{id}")
+	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, @PathVariable("id") Integer id, Errors errors) {
+		if(id!=null) {
 			Advert advert = new Advert();
 			advert = advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", edit.getId()));
 			if(edit.getTitle()!=null) advert.setTitle(edit.getTitle());
