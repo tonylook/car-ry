@@ -3,7 +3,7 @@ package com.advantio.carry.model;
 import java.util.List;
 
 public class AdvertsResponse {
-	List <Advert> adverts;
+	private List <Advert> adverts;
 
 	public AdvertsResponse(List<Advert> adverts) {
 		super();

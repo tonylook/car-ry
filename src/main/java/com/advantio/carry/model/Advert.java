@@ -30,7 +30,7 @@ public class Advert {
 	private Integer price;
 
 	@NotNull
-	private Boolean isNew;
+	private Boolean newIs;
 
 	private Integer mileage;
 
@@ -70,12 +70,12 @@ public class Advert {
 		this.price = price;
 	}
 
-	public Boolean getIsNew() {
-		return isNew;
+	public Boolean getnewIs() {
+		return newIs;
 	}
 
-	public void setIsNew(Boolean isNew) {
-		this.isNew = isNew;
+	public void setnewIs(Boolean newIs) {
+		this.newIs = newIs;
 	}
 
 	public Integer getMileage() {
@@ -95,13 +95,13 @@ public class Advert {
 	}
 
 	public Advert(Integer id, @NotNull String title, @NotNull String fuel, @NotNull Integer price,
-			@NotNull Boolean isNew, Integer mileage, LocalDate firstRegistration) {
+			@NotNull Boolean newIs, Integer mileage, LocalDate firstRegistration) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.fuel = fuel;
 		this.price = price;
-		this.isNew = isNew;
+		this.newIs = newIs;
 		this.mileage = mileage;
 		this.firstRegistration = firstRegistration;
 	}

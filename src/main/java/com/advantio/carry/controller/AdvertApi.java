@@ -1,10 +1,5 @@
 package com.advantio.carry.controller;
 
-import java.util.List;
-
-import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.advantio.carry.exception.ResourceNotFoundException;
 import com.advantio.carry.model.Advert;
+import com.advantio.carry.model.AdvertRequest;
 import com.advantio.carry.model.AdvertValidator;
 import com.advantio.carry.model.AdvertsResponse;
 import com.advantio.carry.repository.AdvertDao;
@@ -40,13 +36,13 @@ public class AdvertApi {
 	private AdvertDao advertDao;
 
 	@PostMapping("/adverts")
-	public ResponseEntity<?> insertAdvert(@Valid @RequestBody Advert advert, Errors errors) {
-		advertValidator.validate(advert, errors);
+	public ResponseEntity<?> insertAdvert(@RequestBody AdvertRequest advert, Errors errors) {
+		advertValidator.validate(advert.getAdvert(), errors);
 		if (errors.hasErrors()) {
 			return new ResponseEntity<>(advertValidator.createError(errors), HttpStatus.BAD_REQUEST);
 		}else {
-			advertDao.save(advert);
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			advertDao.save(advert.getAdvert());
+			return new ResponseEntity<>(advert,HttpStatus.CREATED);
 		}
 	}
 
@@ -59,8 +55,8 @@ public class AdvertApi {
 			return new AdvertsResponse(advertDao.findAllByOrderByFuelAsc());
 		case "price":
 			return new AdvertsResponse(advertDao.findAllByOrderByPriceAsc());
-		case "isNew":
-			return new AdvertsResponse(advertDao.findAllByOrderByIsNewAsc());
+		case "newIs":
+			return new AdvertsResponse(advertDao.findAllByOrderByNewIsAsc());
 		case "mileage":
 			return new AdvertsResponse(advertDao.findAllByOrderByMileageAsc());
 		case "firstRegistration":
@@ -76,22 +72,22 @@ public class AdvertApi {
 	}
 
 	@PutMapping("/adverts/{id}")
-	public ResponseEntity<?> editAdvert(@RequestBody Advert edit, @PathVariable("id") Integer id, Errors errors) {
+	public ResponseEntity<?> editAdvert(@RequestBody AdvertRequest edit, @PathVariable("id") Integer id, Errors errors) {
 		if(id!=null) {
 			Advert advert = new Advert();
-			advert = advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", edit.getId()));
-			if(edit.getTitle()!=null) advert.setTitle(edit.getTitle());
-			if(edit.getFuel()!=null) advert.setFuel(edit.getFuel());
-			if(edit.getPrice()!=null) advert.setPrice(edit.getPrice());
-			if(edit.getIsNew()!=null) advert.setIsNew(edit.getIsNew());
-			if(edit.getMileage()!=null) advert.setMileage(edit.getMileage());
-			if(edit.getFirstRegistration()!=null) advert.setFirstRegistration(edit.getFirstRegistration());
+			advert = advertDao.findById(id).orElseThrow(() -> new ResourceNotFoundException("Advert", "id", id));
+			if(edit.getAdvert().getTitle()!=null) advert.setTitle(edit.getAdvert().getTitle());
+			if(edit.getAdvert().getFuel()!=null) advert.setFuel(edit.getAdvert().getFuel());
+			if(edit.getAdvert().getPrice()!=null) advert.setPrice(edit.getAdvert().getPrice());
+			if(edit.getAdvert().getnewIs()!=null) advert.setnewIs(edit.getAdvert().getnewIs());
+			if(edit.getAdvert().getMileage()!=null) advert.setMileage(edit.getAdvert().getMileage());
+			if(edit.getAdvert().getFirstRegistration()!=null) advert.setFirstRegistration(edit.getAdvert().getFirstRegistration());
 			advertValidator.validate(advert, errors);
 			if (errors.hasErrors()) {
 				return new ResponseEntity<>(advertValidator.createError(errors), HttpStatus.BAD_REQUEST);
 			}else {
 				advertDao.save(advert);
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(id,HttpStatus.OK);
 			}
 		}
 		return new ResponseEntity<>("message: Id field is mandatory in order to update",HttpStatus.NOT_ACCEPTABLE);
@@ -103,6 +99,6 @@ public class AdvertApi {
 		if(advertDao.findById(id).isPresent()) {
 			return new ResponseEntity<>("Due to some errors, advert was not removed",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(id,HttpStatus.OK);
 	}
 }

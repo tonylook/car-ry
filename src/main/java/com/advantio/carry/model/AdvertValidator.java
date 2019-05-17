@@ -9,7 +9,13 @@ import org.springframework.validation.ObjectError;
 @Component
 public class AdvertValidator {
 	public void validate(Advert advert, Errors errors) {
-		if (!advert.getIsNew()) {
+		
+		try {
+			Fuel fuel = Fuel.valueOf(advert.getFuel());
+		} catch (IllegalArgumentException e) {
+			errors.reject("Fuel Type is not supported");
+		}
+		if (!advert.getnewIs()) {
 			if (advert.getMileage()==null || advert.getFirstRegistration()==null) {
 				errors.reject("When Car is not new, Mileage and First Registration fields are mandatory");
 			}

@@ -11,7 +11,7 @@ public interface AdvertDao extends CrudRepository<Advert, Integer>{
     public List<Advert> findAllByOrderByTitleAsc();
     public List<Advert> findAllByOrderByFuelAsc();
     public List<Advert> findAllByOrderByPriceAsc();
-    public List<Advert> findAllByOrderByIsNewAsc();
+    public List<Advert> findAllByOrderByNewIsAsc();
     public List<Advert> findAllByOrderByMileageAsc();
     public List<Advert> findAllByOrderByFirstRegistrationAsc();
 }

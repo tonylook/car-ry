@@ -34,7 +34,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 	public void acreateTest() throws ParseException {
 		Advert advert = new Advert();
 		advert.setFirstRegistration(LocalDate.parse("2000-03-28", dtf));
-		advert.setIsNew(false);
+		advert.setnewIs(false);
 		advert.setMileage(125000);
 		advert.setPrice(30000);
 		advert.setTitle("Audi A4");
@@ -52,7 +52,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 		
 		assertTrue("No record found for this id", value.isPresent());
 		assertTrue("The record found is not correct", advert.getPrice().equals(Integer.valueOf(30000))); 
-		assertTrue("The record found is not correct",advert.getIsNew().equals(Boolean.valueOf(false)));
+		assertTrue("The record found is not correct",advert.getnewIs().equals(Boolean.valueOf(false)));
 		assertTrue("The record found is not correct",advert.getFirstRegistration().equals(LocalDate.parse("2000-03-28", dtf)));
 		assertTrue("The record found is not correct",advert.getFuel().equals(String.valueOf(Fuel.GASOLINE.name())));
 	}
@@ -76,7 +76,7 @@ DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 		assertTrue("No record to update was found for this id", value.isPresent());
 		assertTrue("The record found was not updated", advert.getPrice().equals(Integer.valueOf(25000))); 
 		assertTrue("The record found was not updated", advert.getMileage().equals(Integer.valueOf(130000))); 
-		assertTrue("The record found is not correct",advert.getIsNew().equals(Boolean.valueOf(false)));
+		assertTrue("The record found is not correct",advert.getnewIs().equals(Boolean.valueOf(false)));
 		assertTrue("The record found was not updated",advert.getTitle().equals(String.valueOf("Audi A4 Sedan")));
 		assertTrue("The record found is not correct",advert.getFirstRegistration().equals(LocalDate.parse("2000-03-28", dtf)));
 		assertTrue("The record found is not correct",advert.getFuel().equals(String.valueOf(Fuel.GASOLINE.name())));

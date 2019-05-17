@@ -33,20 +33,20 @@ public class SortTest {
 		Advert advert3 = new Advert();
 
 		advert1.setFirstRegistration(LocalDate.parse("2015-03-28", dtf));
-		advert1.setIsNew(false);
+		advert1.setnewIs(false);
 		advert1.setMileage(125000);
 		advert1.setPrice(30000);
 		advert1.setTitle("Audi A4");
 		advert1.setFuel(Fuel.GASOLINE.name());
 		advertDao.save(advert1);
 		advert2.setFirstRegistration(LocalDate.parse("2017-01-23", dtf));
-		advert2.setIsNew(false);
+		advert2.setnewIs(false);
 		advert2.setMileage(5000);
 		advert2.setPrice(34250);
 		advert2.setTitle("Toyota CHR");
 		advert2.setFuel(Fuel.DIESEL.name());
 		advertDao.save(advert2);
-		advert3.setIsNew(true);
+		advert3.setnewIs(true);
 		advert3.setPrice(1280300);
 		advert3.setTitle("Pagani Huayara");
 		advert3.setFuel(Fuel.GASOLINE.name());
@@ -74,13 +74,13 @@ public class SortTest {
 	}
 
 	@Test
-	public void disNewTest() throws ParseException {
+	public void dnewIsTest() throws ParseException {
 
-		List<Advert> adverts = advertDao.findAllByOrderByIsNewAsc();
+		List<Advert> adverts = advertDao.findAllByOrderByNewIsAsc();
 		Advert advert = new Advert();
 		advert = adverts.get(0);
 
-		assertTrue("The record found is not correct",advert.getIsNew().equals(Boolean.valueOf(false)));
+		assertTrue("The record found is not correct",advert.getnewIs().equals(Boolean.valueOf(false)));
 	}
 
 	@Test
